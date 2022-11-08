@@ -1,0 +1,16 @@
+{
+  "runid": "cli-testing-brockp",
+  "deletesource": false,
+  "source": {
+     "id": "dabdcca8-6d04-11e5-ba46-22000b92c6ec",
+     "path": "/Users/brockp/desktop/flow"
+  },
+  "scratch": {
+     "id": "e0370902-9f48-11e9-821b-02b7a92d8e58",
+     "path": "/scratch/support_root/support/brockp/dest"
+  },
+  "function": {
+     "endpoint": "3d0f563e-f797-40ba-a960-e4614eb258a3",
+     "functionfunc": "1830ef69-778c-44ef-8c23-c687f7734eb1"
+  }
+}

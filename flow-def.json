@@ -1,0 +1,80 @@
+{
+	"Comment": "Brock is learning how to create a flow",
+	"StartAt": "SourceToScratch",
+	"States": {
+		"SourceToScratch": {
+			"Comment": "Copy data from data source to a scratch space",
+			"Type": "Action",
+			"ActionUrl": "https://actions.globus.org/transfer/transfer",
+		        "Parameters": {
+		            "label.=": "runid + ' Source to scratch transfer'",
+			    "source_endpoint_id.$": "$.source.id",
+			    "destination_endpoint_id.$": "$.scratch.id",
+			    "transfer_items": [
+			        {
+			            "source_path.$": "$.source.path",
+			            "destination_path.$": "$.scratch.path",
+			            "recursive": true
+			        }
+			    ],
+			    "notify_on_succeeded": false,
+			    "notify_on_failed": true,
+			    "notify_on_inactive": true
+			},
+			"ResultPath": "$.SourceToScratchOutput",
+			"Next": "RunFunc"
+		},
+		"RunFunc": {
+			"Comment": "Run funcx on Great Lakes",
+			"Type": "Action",
+			"ActionUrl": "https://automate.funcx.org",
+			"ActionScope": "https://auth.globus.org/scopes/b3db7e59-a6f1-4947-95c2-59d6b7a70f8c/action_all",
+		        "Parameters": {
+				"tasks": [
+					{
+					"endpoint.$":"$.function.endpoint",
+					"function.$": "$.function.functionfunc",
+					"payload": {
+						"a": 10,
+						"b": 20
+					}
+					}
+				]
+			},
+			"ResultPath": "$.SumOutput",
+			"Next": "ChoiceDeleteSource"
+		},
+		"ChoiceDeleteSource": {
+			"Type": "Choice",
+			"Choices": [
+				{
+					"Variable": "$.deletesource",
+					"BooleanEquals": true,
+					"Next": "RunDeleteSource"
+				}
+			],
+			"Default": "CompleteRun"
+		},
+		"RunDeleteSource": {
+			"Type": "Action",
+			"ActionUrl": "https://actions.globus.org/hello_world",
+			"Parameters": {
+				"echo_string" : "We are now deleting",
+				"sleep_time": 5
+			},
+			"ResultPath": "$.RunDeleteSourceOutput",
+			"Next": "CompleteRun"
+		},
+		"CompleteRun": {
+			"Type": "Action",
+			"ActionUrl": "https://actions.globus.org/hello_world",
+			"Parameters": {
+				"echo_string" : "now complete",
+				"sleep_time": 5
+			},
+		"End": true
+		}
+	}
+}
+
+
