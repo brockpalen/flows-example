@@ -64,20 +64,20 @@
 	"function": {
             "additionalProperties": false,
             "type": "object",
-	    "title": "funcx inputs",
+	    "title": "globus compute inputs",
 	    "required": [
 		    "endpoint",
 		    "functionfunc"
 	    ],
 	    "properties": {
 		    "endpoint": {
-			    "title": "UUID of funcx endpoint to run on",
+			    "title": "UUID of globus-compute endpoint to run on",
 			    "type": "string",
 			    "format": "uuid",
 			    "default": "3d0f563e-f797-40ba-a960-e4614eb258a3"
 		    },
 		    "functionfunc": {
-			    "title": "UUID of funcx functoin to call",
+			    "title": "UUID of globus-compute function to call",
 			    "type": "string",
 			    "format": "uuid",
 			    "default": "1830ef69-778c-44ef-8c23-c687f7734eb1"

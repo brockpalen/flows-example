@@ -3,10 +3,12 @@
 This flow example has two main components, 
 
  1. [Globus Flow](https://docs.globus.org/api/flows/) 
- 1. [FuncX](https://funcx.org/)
+ 1. [Globus Compute aka funcx](https://funcx.org/)
+
+https://funcx.readthedocs.io/en/latest/quickstart.html
 
 
-# Setup virtual env As of 11/2022
+# Setup virtual env As of 6/2023
 
 ```
 ssh gl-login1.arc-ts.umich.edu
@@ -16,8 +18,7 @@ module load python/3.10.4
 virtualenv
 
 source bin/activate
-python3 -m pip install funcx
-python3 -m pip install funcx_endpoint
+python3 -m pip install globus-compute-endpoint
 python3 -m pip install globus-automate-client
 ```
 
@@ -27,21 +28,21 @@ Need to start this on same host always.
 An endpoint per slurm configuration is required. 
 
 ```
-funcx-endpoint configure gl-login1-standard
+globus-compute-endpoint configure gl-login1-standard
 
-funcx-endpoint list
+globus-compute-endpoint list
 
 
 # copy in example parsl config to use slurm 
 # this can be skipped and test will run on the login node to veryify
 
-cp config.py ~/.funcx/gl-login1-standard/config.py
+cp config.py ~/.globus_compute/gl-login1-standard/config.py
 
 # edit config.py and update account, slurm settings
 # example defaults to using a whole 36 core 180gb node
 
-funcx-endpoint start gl-login1-standard 
-funcx-endpoint list
+globus-compute-endpoint start gl-login1-standard 
+globus-compute-endpoint list
 
 #should list running
 ```

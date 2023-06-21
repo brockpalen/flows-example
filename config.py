@@ -1,22 +1,8 @@
-from parsl.addresses import address_by_hostname
-from parsl.launchers import SrunLauncher
+from globus_compute_endpoint.endpoint.utils.config import Config
+from globus_compute_endpoint.executors import HighThroughputExecutor
 from parsl.providers import SlurmProvider
-
-from funcx_endpoint.endpoint.utils.config import Config
-from funcx_endpoint.executors import HighThroughputExecutor
-
-#config = Config(
-#    executors=[
-#        HighThroughputExecutor(
-#            provider=LocalProvider(
-#                init_blocks=1,
-#                min_blocks=0,
-#                max_blocks=1,
-#            ),
-#        )
-#    ],
-#    funcx_service_address="https://api2.funcx.org/v2",
-#)
+from parsl.launchers import SrunLauncher
+from parsl.addresses import address_by_interface
 
 user_opts = {
     'greatlakes': {
@@ -32,11 +18,11 @@ config = Config(
             interchange_port_range = (8888,8987),
             max_workers_per_node=2,
             worker_debug=True,
-            address=address_by_hostname(),
+            address=address_by_interface('eth4'),  # Great Lakes eth4 armis/lh may use different values
             provider=SlurmProvider(
-                partition='standard',
+                partition='standard',  # update for slurm -p --partition value
                 launcher=SrunLauncher(),
-				account='support',
+				account='support',  # update for slurm -A --account value
 
                 # string to prepend to #SBATCH blocks in the submit
                 # script to the scheduler eg: '#SBATCH --constraint=knl,quad,cache'
@@ -48,7 +34,7 @@ config = Config(
 
                 # Scale between 0-1 blocks with 2 nodes per block
                 nodes_per_block=1,
-                mem_per_node=180,
+                mem_per_node=10,
                 init_blocks=0,
                 min_blocks=0,
                 max_blocks=1,
@@ -58,14 +44,13 @@ config = Config(
             ),
         )
     ],
-    funcx_service_address="https://api2.funcx.org/v2",
 )
 
 # For now, visible_to must be a list of URNs for globus auth users or groups, e.g.:
 # urn:globus:auth:identity:{user_uuid}
 # urn:globus:groups:id:{group_uuid}
 meta = {
-    "name": "gl-login1",
+    "name": "gl-build-slurm",
     "description": "",
     "organization": "",
     "department": "",
