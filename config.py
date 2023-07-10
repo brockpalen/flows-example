@@ -23,6 +23,7 @@ config = Config(
                 partition='standard',  # update for slurm -p --partition value
                 launcher=SrunLauncher(),
 				account='support',  # update for slurm -A --account value
+                exclusive=False,  # parsl defaults to --exclusive which is bad on ARC shared systems
 
                 # string to prepend to #SBATCH blocks in the submit
                 # script to the scheduler eg: '#SBATCH --constraint=knl,quad,cache'
